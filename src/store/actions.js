@@ -7,6 +7,13 @@ export function taskCompleted(id) {
     }
 }
 
+export function taskDeleted(id) {
+    return {
+        type: actionTypes.taskDeleted,
+        payload: {id}
+    }
+}
+
 export function titleChanged(id) {
     return {
         type: actionTypes.taskUpdated,

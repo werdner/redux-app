@@ -6,7 +6,6 @@ const store = initiateStore()
 
 const App = () => {
     const [state, setState] = useState(store.getState())
-    console.log(state)
     
     useEffect(() => {
         store.subscribe(() => {
@@ -21,6 +20,10 @@ const App = () => {
     const changeTitle = (taskId) => {
         store.dispatch(actions.titleChanged(taskId))
     }
+
+    const deleteTask = (taskId) => {
+        store.dispatch(actions.taskDeleted(taskId))
+    } 
 
     return (
         <>
@@ -39,6 +42,11 @@ const App = () => {
                             onClick={() => changeTitle(element.id)}
                         >
                             Change title
+                        </button>
+                        <button
+                            onClick={() => deleteTask(element.id)}
+                        >
+                            Delete task
                         </button>
                         <hr />
                     </li>
