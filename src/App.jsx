@@ -1,40 +1,48 @@
-import React, { useEffect, useState } from 'react'
-import * as actions from './store/actions'
-import { initiateStore } from './store/store'
-
-const store = initiateStore()
+import React, { useEffect } from 'react'
+import {titleChanged, taskDeleted, completeTaskt, getTasks, loadTasks, getTasksLoadingStatus, createTask} from './store/task'
+import { useDispatch, useSelector } from 'react-redux'
+import { getError } from './store/errors'
 
 const App = () => {
-    const [state, setState] = useState(store.getState())
+    const state = useSelector(getTasks())
+    const isLoading = useSelector(getTasksLoadingStatus())
+    const error = useSelector(getError())
+    const dispatch = useDispatch()
     
     useEffect(() => {
-        store.subscribe(() => {
-            setState(store.getState())
-        })
-    }, [])
-
-    const completeTask = (taskId) => {
-        store.dispatch(actions.taskCompleted(taskId))
-    } 
+        dispatch(loadTasks())
+    }, [dispatch])
 
     const changeTitle = (taskId) => {
-        store.dispatch(actions.titleChanged(taskId))
+        dispatch(titleChanged(taskId))
     }
 
     const deleteTask = (taskId) => {
-        store.dispatch(actions.taskDeleted(taskId))
+        dispatch(taskDeleted(taskId))
     } 
+
+    if (isLoading) {
+        return <h1>Loading</h1>
+    }
+    if (error) {
+        return <h1>{error}</h1>
+    }
 
     return (
         <>
             <h1>App</h1>
+            <button
+                onClick={() => dispatch(createTask())}
+            >
+                Create task
+            </button>
             <ul>
                 {state.map(element => (
                     <li key={element.id}>
                         <p>{element.title}</p>
                         <p>{`Completed: ${element.completed}`}</p>
                         <button
-                            onClick={() => completeTask(element.id)}
+                            onClick={() => dispatch(completeTaskt(element.id))}
                         >
                             Complete
                         </button>
