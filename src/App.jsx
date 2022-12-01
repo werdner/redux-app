@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import {titleChanged, taskDeleted, completeTaskt, getTasks, loadTasks, getTasksLoadingStatus, createTask} from './store/task'
+import {titleChanged, taskDeleted, completeTaskt, getTasks, loadTasks, getTasksLoadingStatus} from './store/task'
 import { useDispatch, useSelector } from 'react-redux'
 import { getError } from './store/errors'
 
@@ -31,11 +31,6 @@ const App = () => {
     return (
         <>
             <h1>App</h1>
-            <button
-                onClick={() => dispatch(createTask())}
-            >
-                Create task
-            </button>
             <ul>
                 {state.map(element => (
                     <li key={element.id}>
