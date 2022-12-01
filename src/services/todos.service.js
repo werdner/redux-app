@@ -12,5 +12,15 @@ export const todosService = {
         })
 
         return data
+    },
+    create: async(id) => {
+        const {data} = await httpService.put(todosEndpoint + id, {
+            title: 'foo',
+            completed: false,
+            id,
+            userId: 1,
+        })
+
+        return data
     }
 }
